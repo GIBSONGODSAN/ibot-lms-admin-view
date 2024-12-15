@@ -1,0 +1,93 @@
+/* Container styling */
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Form elements styling */
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+.mb-4 {
+  margin-bottom: 16px;
+}
+
+/* Label styling */
+label {
+  font-size: 16px;
+  color: #333;
+  font-weight: 600;
+  margin-bottom: 8px;
+  display: block;
+}
+
+/* Input, Textarea, Select, File input styling */
+input[type="text"],
+input[type="number"],
+input[type="file"],
+textarea,
+select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background-color: #fff;
+  font-size: 14px;
+  color: #333;
+  box-sizing: border-box;
+}
+
+/* Textarea specific styling */
+textarea {
+  resize: vertical;
+  height: 150px;
+}
+
+/* Checkbox styling */
+input[type="checkbox"] {
+  width: auto;
+  margin-right: 8px;
+}
+
+/* Button styling */
+button {
+  padding: 12px 24px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:disabled {
+  background-color: #ddd;
+  cursor: not-allowed;
+}
+
+button:hover:enabled {
+  background-color: #45a049;
+}
+
+/* File input styling */
+input[type="file"] {
+  border: none;
+  padding: 0;
+}
+
+/* Hover and focus styles for input fields */
+input[type="text"]:focus,
+input[type="number"]:focus,
+textarea:focus,
+select:focus {
+  border-color: #4CAF50;
+  outline: none;
+}
+

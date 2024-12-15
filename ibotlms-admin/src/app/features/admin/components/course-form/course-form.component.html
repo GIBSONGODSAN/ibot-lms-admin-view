@@ -1,0 +1,49 @@
+<div class="container mx-auto p-4">
+  <form [formGroup]="courseForm" (ngSubmit)="onSubmit()">
+    <div class="mb-4">
+      <label for="course_name" class="block text-gray-700">Course Name</label>
+      <input id="course_name" type="text" formControlName="course_name" class="w-full p-2 border rounded" />
+    </div>
+
+    <div class="mb-4">
+      <label for="course_description" class="block text-gray-700">Course Description</label>
+      <textarea id="course_description" formControlName="course_description" class="w-full p-2 border rounded"></textarea>
+    </div>
+
+    <div class="mb-4">
+      <label for="course_duration" class="block text-gray-700">Course Duration (in hours)</label>
+      <input id="course_duration" type="text" formControlName="course_duration" class="w-full p-2 border rounded" />
+    </div>
+
+    <div class="mb-4">
+      <label for="course_price" class="block text-gray-700">Course Price</label>
+      <input id="course_price" type="text" formControlName="course_price" class="w-full p-2 border rounded" />
+    </div>
+
+    <div class="mb-4">
+      <label for="status" class="block text-gray-700">Status</label>
+      <input id="status" type="checkbox" formControlName="status" class="p-2" />
+    </div>
+
+    <div class="mb-4">
+      <label for="product" class="block text-gray-700">Product</label>
+      <select id="product" formControlName="product" class="w-full p-2 border rounded">
+        <option *ngFor="let product of products" [value]="product.id">{{ product.product_name }}</option>
+      </select>
+    </div>
+
+    <div class="mb-4">
+      <label for="course_cover_image" class="block text-gray-700">Course Cover Image</label>
+      <input id="course_cover_image" type="file" (change)="onFileChange($event)" class="w-full p-2 border rounded" />
+    </div>
+
+    <div class="mb-4">
+      <label for="video" class="block text-gray-700">Video URL</label>
+      <input id="video" type="text" formControlName="video" class="w-full p-2 border rounded" />
+    </div>
+
+    <button type="submit" [disabled]="isSubmitting" class="px-4 py-2 bg-blue-500 text-white rounded">
+      Submit
+    </button>
+  </form>
+</div>   
