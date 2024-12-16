@@ -78,13 +78,28 @@
           </button>
           <button mat-menu-item (click)="editModules(course)">
             <mat-icon>edit</mat-icon>
-            <span>Edit Modules</span>
+            <span>View Modules</span>
+          </button>
+          <button mat-menu-item (click)="editCertification(course)">
+            <mat-icon>edit</mat-icon>
+            <span>View Certification</span>
           </button>
           <button mat-menu-item (click)="deleteCourse(course)">
             <mat-icon>delete</mat-icon>
             <span>Delete Course</span>
           </button>
         </mat-menu>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="toggleStatus">
+      <th mat-header-cell *matHeaderCellDef>Status</th>
+      <td mat-cell *matCellDef="let course" [ngClass]="course.status ? 'active' : 'inactive'">
+        <mat-slide-toggle
+          [checked]="course.status"
+          (change)="toggleCourseStatus(course, $event.checked)">
+          {{ course.status ? 'Active' : 'Inactive' }}
+        </mat-slide-toggle>
       </td>
     </ng-container>
 

@@ -17,7 +17,7 @@ export class CourseListComponent implements OnInit, AfterViewInit {
 
   constructor(private courseService: CoursesService, private dialog: MatDialog, private router: Router) { }
 
-  displayedColumns: string[] = ['select', 'courseName', 'category', 'lessons', 'enrollment', 'status', 'price', 'actions'];
+  displayedColumns: string[] = ['select', 'courseName', 'category', 'lessons', 'enrollment', 'status', 'price', 'actions', 'toggleStatus'];
 
   courses = new MatTableDataSource<any>([]);  // Initialize as an empty array
   selection = new SelectionModel<any>(true, []); // Multi-select
@@ -108,6 +108,12 @@ export class CourseListComponent implements OnInit, AfterViewInit {
     this.router.navigate(['/admin/home/modules-list'], { queryParams: { courseId: courseId } });
   }
 
+  editCertification(course: any): void {
+    const courseId = course.id; // Assuming 'id' is the identifier for the course
+    alert(`Edit Certifications for Course: ${course.id}`);
+    this.router.navigate(['/admin/home/certification'], { queryParams: { courseId: courseId } });
+  }
+
   deleteCourse(course: any) {
     const courseId = course.id; // Assuming 'id' is the identifier for the course
     alert(`Delete Course: ${course.course_name}`);
@@ -147,4 +153,26 @@ export class CourseListComponent implements OnInit, AfterViewInit {
     });
   }
   
+  toggleCourseStatus(course: any, newStatus: boolean): void {
+    // Optimistic update: Change status locally first
+    const previousStatus = course.status;
+    course.status = newStatus;
+
+    // Call backend to update status
+    this.courseService.updateCourseVisibility(course.id, newStatus).subscribe({
+      next: (response) => {
+        if (response.status?.code === 200) {
+          console.log('Course status updated successfully:', response.data);
+        } else {
+          console.error('Unexpected response:', response);
+          course.status = previousStatus; // Revert in case of unexpected response
+        }
+      },
+      error: (err) => {
+        console.error('Failed to update course status:', err);
+        // Revert status if the API call fails
+        course.status = previousStatus;
+      }
+    });
+  }  
 }

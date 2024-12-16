@@ -53,4 +53,12 @@ export class CoursesService {
   deleteCourse(courseId: string): Observable<any> {
     return this.http.delete(`${this.apiUrl}/courses/${courseId}/`, this.httpOptions);
   }
+
+  updateCourseVisibility(courseId: string, status: boolean): Observable<any> {
+    const params = new HttpParams()
+      .set('course_id', courseId)
+      .set('status', status.toString());
+
+    return this.http.get(`${this.apiUrl}/course-user-visibility/`, { params });
+  }
 }

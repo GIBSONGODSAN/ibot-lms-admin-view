@@ -1,7 +1,8 @@
 from django.urls import path
 from .views import (CourseListCreateAPIView, CourseDetailAPIView, SignUpAPIView, SignInAPIView, ModuleAPIView, 
                     ModuleDetailAPIView, OfflinePurchaseList, OfflinePurchaseDetail, ModuleFileAPIView,
-                    AssessmentCreateAPIView, AssessmentDetailAPIView, CategoryAPIView, ProductAPIView)
+                    AssessmentCreateAPIView, AssessmentDetailAPIView, CategoryAPIView, ProductAPIView, CourseUserVisibilityAPIView,
+                    CertificationAPIView, CertificationQuestionAPIView)
 
 urlpatterns = [
     path('courses/', CourseListCreateAPIView.as_view(), name='course-list-create'),
@@ -24,4 +25,9 @@ urlpatterns = [
     path('categories/<str:pk>/', CategoryAPIView.as_view()),  # For PUT and DELETE
     path('products/', ProductAPIView.as_view()),  # For GET and POST
     path('products/<str:pk>/', ProductAPIView.as_view()),  # For PUT and DELETE
+    path('course-user-visibility/', CourseUserVisibilityAPIView.as_view(), name='course-user-visibility'),
+    path('certification/', CertificationAPIView.as_view(), name='certification'),                # POST, GET by course_id
+    path('certification/<uuid:id>/', CertificationAPIView.as_view()),
+    path('certification-question/', CertificationQuestionAPIView.as_view()),                # POST, GET by certification_id
+    path('certification-question/<uuid:id>/', CertificationQuestionAPIView.as_view()),
 ]

@@ -51,3 +51,18 @@ class CourseImgSerializer(serializers.ModelSerializer):
         if obj.course_cover_image:
             return request.build_absolute_uri(obj.course_cover_image.url)
         return None
+    
+class CourseUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Course
+        fields = ['status']
+        
+class CertificationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Certification
+        fields = '__all__'
+        
+class CertificationQuestionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CertificationQuestion
+        fields = '__all__'

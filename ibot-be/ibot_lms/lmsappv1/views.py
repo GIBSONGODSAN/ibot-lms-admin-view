@@ -5,7 +5,7 @@ from rest_framework import status
 from django.db.models import Count, Sum, Avg
 # from .filters import CourseFilter
 from .models import User, OfflinePurchase, Module, Course, Assessment, Certification, CertificationQuestion, Category, Product
-from .serializers import CourseSerializer, UserSerializer, CourseImgSerializer, ModuleSerializer, OfflinePurchaseSerializer, AssessmentSerializer, CategorySerializer, ProductSerializer, ProductCategorySerializer
+from .serializers import CourseSerializer, CertificationQuestionSerializer, CourseUserSerializer, CertificationSerializer, UserSerializer, CourseImgSerializer, ModuleSerializer, OfflinePurchaseSerializer, AssessmentSerializer, CategorySerializer, ProductSerializer, ProductCategorySerializer
 from .methods import generate_otp, purchasedUser_encode_token,visitor_encode_token,courseSubscribedUser_encode_token, admin_encode_token, encrypt_password
 from .authentication import PurchasedUserTokenAuthentication, CourseSubscribedUserTokenAuthentication, AdminTokenAuthentication, VisitorTokenAuthentication
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -467,3 +467,99 @@ class ProductAPIView(APIView):
             return Response({"message": "Product deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
         except Product.DoesNotExist:
             return Response({"message": "Product not found"}, status=status.HTTP_404_NOT_FOUND)
+        
+class CourseUserVisibilityAPIView(APIView):
+    def get(self, request, *args, **kwargs):
+        course_id = request.query_params.get('course_id')
+        status_value = request.query_params.get('status')
+        if not course_id:
+            return Response({"error": "course_id is required"}, status=status.HTTP_400_BAD_REQUEST)
+        if status_value not in ['true', 'false']:
+            return Response({"error": "status must be 'true' or 'false'"}, status=status.HTTP_400_BAD_REQUEST)
+
+        status_bool = status_value.lower() == 'true'
+        course = get_object_or_404(Course, id=course_id)
+        course.status = status_bool
+        course.save()
+
+        return Response({"data": {"course_id": course_id, "status": status_bool}, "message": "Course status updated successfully"}, status=status.HTTP_200_OK)
+
+class CertificationAPIView(APIView):
+    def post(self, request):
+        course_id = request.data.get("course")
+        if Certification.objects.filter(course_id=course_id).exists():
+            return Response(
+                {"message": "A certification for this course already exists."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        serializer = CertificationSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"data": serializer.data}, status=status.HTTP_201_CREATED)
+        return Response({"message": serializer.errors}, status=status.HTTP_400_BAD)
+                        
+    def get(self, request, *args, **kwargs):
+        cert_id = kwargs.get('id', None)
+        course_id = request.query_params.get('course_id', None)
+
+        if cert_id:
+            certification = get_object_or_404(Certification, id=cert_id)
+            serializer = CertificationSerializer(certification)
+            return Response({"data": serializer.data}, status=status.HTTP_200_OK)
+
+        if course_id:
+            certifications = Certification.objects.filter(course__id=course_id)
+            serializer = CertificationSerializer(certifications, many=True)
+            return Response({"data": serializer.data}, status=status.HTTP_200_OK)
+
+        return Response({"error": "No valid ID or course ID provided."}, status=status.HTTP_400_BAD_REQUEST)
+
+    def put(self, request, id):
+        certification = get_object_or_404(Certification, id=id)
+        serializer = CertificationSerializer(certification, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"data": serializer.data}, status=status.HTTP_200_OK)
+        return Response({"message": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, id):
+        certification = get_object_or_404(Certification, id=id)
+        certification.delete()
+        return Response({"message": "Certification deleted successfully."}, status=status.HTTP_204_NO_CONTENT)
+    
+class CertificationQuestionAPIView(APIView):
+    def post(self, request):
+        serializer = CertificationQuestionSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"data": serializer.data}, status=status.HTTP_201_CREATED)
+        return Response({"message": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+    def get(self, request, *args, **kwargs):
+        cert_quest_id = kwargs.get('id', None)
+        cert_id = request.query_params.get('certification_id', None)
+
+        if cert_id:
+            questions = CertificationQuestion.objects.filter(certification__id=cert_id)
+            serializer = CertificationQuestionSerializer(questions, many=True)
+            return Response({"data": serializer.data}, status=status.HTTP_200_OK)
+        
+        if cert_quest_id:
+            question = get_object_or_404(CertificationQuestion, id=cert_quest_id)
+            serializer = CertificationQuestionSerializer(question)
+            return Response({"data": serializer.data}, status=status.HTTP_200_OK)
+
+        return Response({"message": "Certification ID is required."}, status=status.HTTP_400_BAD_REQUEST)
+
+    def put(self, request, id):
+        question = get_object_or_404(CertificationQuestion, id=id)
+        serializer = CertificationQuestionSerializer(question, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"data": serializer.data}, status=status.HTTP_200_OK)
+        return Response({"message": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, id):
+        question = get_object_or_404(CertificationQuestion, id=id)
+        question.delete()
+        return Response({"message": "Certification question deleted successfully."}, status=status.HTTP_204_NO_CONTENT)

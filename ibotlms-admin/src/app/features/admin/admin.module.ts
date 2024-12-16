@@ -8,6 +8,7 @@ import { ModuleService } from './services/module.service';
 import { AssessmentService } from './services/assessment.service';
 import { CategoriesService } from './services/categories.service';
 import { ProductsService } from './services/products.service';
+import { CertificationService } from './services/certification.service';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms'; // <-- Add this import
 import { MatMenuModule } from '@angular/material/menu';
@@ -26,6 +27,9 @@ import { OfflinePurchaseFormComponent } from './components/offline-purchase-form
 import { PdfViewerDialogComponent } from './components/pdf-viewer-dialog/pdf-viewer-dialog.component';
 import { AssessmentListComponent } from './components/assessment-list/assessment-list.component';
 import { AssessmentFormComponent } from './components/assessment-form/assessment-form.component';
+import { CertificationViewComponent } from './components/certification-view/certification-view.component';
+import { CertificationFormComponent } from './components/certification-form/certification-form.component';
+import { CertificationQuestionFormComponent } from './components/certification-question-form/certification-question-form.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';  // For mat-table
 import { MatCheckboxModule } from '@angular/material/checkbox';  // For mat-checkbox
@@ -63,6 +67,9 @@ import { MatOptionModule } from '@angular/material/core';
     PdfViewerDialogComponent,
     AssessmentListComponent,
     AssessmentFormComponent,
+    CertificationViewComponent,
+    CertificationFormComponent,
+    CertificationQuestionFormComponent,
   ],
   imports: [
     // BrowserAnimationsModule,
@@ -90,6 +97,6 @@ import { MatOptionModule } from '@angular/material/core';
     MatSelectModule,
     MatOptionModule
   ],
-  providers: [AdminserviceService,UsersService,CoursesService, ModuleService, AssessmentService, CategoriesService, ProductsService]
+  providers: [AdminserviceService,UsersService,CoursesService, ModuleService, AssessmentService, CategoriesService, ProductsService, CertificationService]
 })
 export class AdminModule { }

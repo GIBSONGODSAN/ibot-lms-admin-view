@@ -89,7 +89,6 @@ class Certification(models.Model):
     course = models.ForeignKey(Course, related_name='certifications', on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     description = models.TextField()
-    duration = models.DurationField()
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
 

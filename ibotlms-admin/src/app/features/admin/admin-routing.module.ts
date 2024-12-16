@@ -11,6 +11,7 @@ import { InvoiceDetailsComponent } from './components/invoice-details/invoice-de
 import { ModulesListComponent } from './components/modules-list/modules-list.component';
 import { OfflinePurchaseFormComponent } from './components/offline-purchase-form/offline-purchase-form.component';
 import { AssessmentListComponent } from './components/assessment-list/assessment-list.component';
+import { CertificationViewComponent } from './components/certification-view/certification-view.component';
 
 const routes: Routes = [
   { path: 'home', component: AdminDashboardComponent,
@@ -25,6 +26,7 @@ const routes: Routes = [
       { path: 'invoice-form', component: OfflinePurchaseFormComponent },
       { path: 'modules-list', component: ModulesListComponent },
       { path: 'assessment-list', component: AssessmentListComponent },
+      { path: 'certification', component: CertificationViewComponent },
     ]
       },
 ];
