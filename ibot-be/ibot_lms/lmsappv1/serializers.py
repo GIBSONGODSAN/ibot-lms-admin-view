@@ -37,9 +37,15 @@ class ProductSerializer(serializers.ModelSerializer):
         
 class ProductCategorySerializer(serializers.ModelSerializer):
     category = CategorySerializer()
+    product_image = serializers.SerializerMethodField()
     class Meta:
         model = Product
-        fields = ['id', 'product_name', 'description', 'category', 'price', 'make']
+        fields = ['id', 'product_name', 'description', 'category', 'price', 'make', 'product_image']
+    def get_product_image(self, obj):
+        request = self.context.get('request')
+        if obj.product_image:
+            return request.build_absolute_uri(obj.product_image.url)
+        return None
         
 class CourseImgSerializer(serializers.ModelSerializer):
     course_cover_image = serializers.SerializerMethodField()
@@ -50,6 +56,17 @@ class CourseImgSerializer(serializers.ModelSerializer):
         request = self.context.get('request')
         if obj.course_cover_image:
             return request.build_absolute_uri(obj.course_cover_image.url)
+        return 
+    
+class ProductImgSerializer(serializers.ModelSerializer):
+    product_image = serializers.SerializerMethodField()
+    class Meta:
+        model = Product
+        fields = '__all__'
+    def get_product_image(self, obj):
+        request = self.context.get('request')
+        if request and obj.product_image:
+            return request.build_absolute_uri(obj.product_image.url)
         return None
     
 class CourseUserSerializer(serializers.ModelSerializer):

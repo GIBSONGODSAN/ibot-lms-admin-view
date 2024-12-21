@@ -42,9 +42,11 @@
       <!-- Product Information -->
       <div class="card">
         <h3>PRODUCT INFORMATION</h3>
-        <label for="product_name">Product Name</label>
-        <input id="product_name" name="product_name" [(ngModel)]="formData.product_name" required />
-  
+          <label for="product">Product Name</label>
+          <select id="product" name="product" [(ngModel)]="formData.product" required>
+            <option *ngFor="let product of products" [value]="product.id">{{ product.product_name }}</option>
+          </select>
+        
         <label for="product_price">Product Price</label>
         <input id="product_price" name="product_price" [(ngModel)]="formData.product_price" type="number" required />
   

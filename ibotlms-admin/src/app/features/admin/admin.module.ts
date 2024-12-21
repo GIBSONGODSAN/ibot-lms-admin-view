@@ -30,6 +30,9 @@ import { AssessmentFormComponent } from './components/assessment-form/assessment
 import { CertificationViewComponent } from './components/certification-view/certification-view.component';
 import { CertificationFormComponent } from './components/certification-form/certification-form.component';
 import { CertificationQuestionFormComponent } from './components/certification-question-form/certification-question-form.component';
+import { ProductsComponent } from './components/products/products.component';
+import { CategoryformComponent } from './components/categoryform/categoryform.component';
+import { ProductformComponent } from './components/productform/productform.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';  // For mat-table
 import { MatCheckboxModule } from '@angular/material/checkbox';  // For mat-checkbox
@@ -47,6 +50,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatGridListModule } from '@angular/material/grid-list';
 // import { MatExpansionModule } from '@angular/material/expansion';
 // import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -70,6 +75,9 @@ import { MatOptionModule } from '@angular/material/core';
     CertificationViewComponent,
     CertificationFormComponent,
     CertificationQuestionFormComponent,
+    ProductsComponent,
+    CategoryformComponent,
+    ProductformComponent,
   ],
   imports: [
     // BrowserAnimationsModule,
@@ -95,8 +103,10 @@ import { MatOptionModule } from '@angular/material/core';
     MatInputModule,
     MatSlideToggleModule,
     MatSelectModule,
-    MatOptionModule
+    MatOptionModule,
+    MatProgressSpinnerModule,
+    MatGridListModule,
   ],
-  providers: [AdminserviceService,UsersService,CoursesService, ModuleService, AssessmentService, CategoriesService, ProductsService, CertificationService]
+  providers: [AdminserviceService,UsersService,CoursesService, ModuleService, AssessmentService, CategoriesService, ProductsService, CertificationService ]
 })
 export class AdminModule { }

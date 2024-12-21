@@ -5,7 +5,7 @@ from rest_framework import status
 from django.db.models import Count, Sum, Avg
 # from .filters import CourseFilter
 from .models import User, OfflinePurchase, Module, Course, Assessment, Certification, CertificationQuestion, Category, Product
-from .serializers import CourseSerializer, CertificationQuestionSerializer, CourseUserSerializer, CertificationSerializer, UserSerializer, CourseImgSerializer, ModuleSerializer, OfflinePurchaseSerializer, AssessmentSerializer, CategorySerializer, ProductSerializer, ProductCategorySerializer
+from .serializers import CourseSerializer, CertificationQuestionSerializer, CourseUserSerializer, CertificationSerializer, ProductImgSerializer, UserSerializer, CourseImgSerializer, ModuleSerializer, OfflinePurchaseSerializer, AssessmentSerializer, CategorySerializer, ProductSerializer, ProductCategorySerializer
 from .methods import generate_otp, purchasedUser_encode_token,visitor_encode_token,courseSubscribedUser_encode_token, admin_encode_token, encrypt_password
 from .authentication import PurchasedUserTokenAuthentication, CourseSubscribedUserTokenAuthentication, AdminTokenAuthentication, VisitorTokenAuthentication
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -432,20 +432,23 @@ class ProductAPIView(APIView):
         if pk:
             try:
                 product = Product.objects.get(pk=pk)
-                serializer = ProductCategorySerializer(product)
+                serializer = ProductCategorySerializer(product, context={'request': request})
                 return Response({"data": serializer.data}, status=status.HTTP_200_OK)
             except Product.DoesNotExist:
                 return Response({"error": "Product not found"}, status=status.HTTP_404_NOT_FOUND)
         else:
             products = Product.objects.all()
-            serializer = ProductSerializer(products, many=True)
+            serializer = ProductImgSerializer(products, many=True, context={'request': request})
             return Response({"data": serializer.data}, status=status.HTTP_200_OK)
 
     def post(self, request):
-        serializer = ProductSerializer(data=request.data)
+        print(request.data)
+        serializer = ProductSerializer(data=request.data) 
         if serializer.is_valid():
             serializer.save()
             return Response({"data": serializer.data}, status=status.HTTP_201_CREATED)
+        print(serializer.errors)
+        logger.error(serializer.errors)
         return Response({"message": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
     def put(self, request, pk):

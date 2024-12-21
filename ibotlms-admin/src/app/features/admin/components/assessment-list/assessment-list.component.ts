@@ -55,8 +55,6 @@ export class AssessmentListComponent implements OnInit {
       if (result) {
         this.assessmentService.createAssessment(result).subscribe({
           next: (response) => {
-            console.log('Assessment created successfully', response);
-            // Optionally, refresh the list here
             this.getAssessments();
           },
           error: (error) => {

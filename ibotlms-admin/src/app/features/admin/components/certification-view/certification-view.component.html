@@ -15,9 +15,6 @@
           <button class="filter-button" aria-label="Filter Certifications">
             <span class="icon">☰</span> Filtered By <span class="arrow">›</span>
           </button>
-                  <div *ngIf="certifications.length === 0 && !errorMessage">
-          <button class="add-list-button" (click)="openDialog()">+ Add Certification</button>
-        </div>
           <button class="add-list-button" (click)="openQuestDialog()">+ Add Questions</button>
         </div>
       </div>
@@ -25,6 +22,9 @@
       <!-- Certification description -->
       <p class="certification-description">{{ certification.description }}</p>
     </div>
+  </div>
+  <div *ngIf="certifications.length === 0 && !errorMessage">
+    <button class="add-list-button" (click)="openDialog()">+ Add Certification</button>
   </div>
   
   

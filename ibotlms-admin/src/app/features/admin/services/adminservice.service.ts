@@ -43,6 +43,7 @@ export class AdminserviceService {
   }
 
   createPurchase(purchaseData: any): Observable<any> {
+    console.log('Purchase data:', purchaseData);
     return this.http.post(`${this.apiUrl}/offline-purchases/`, purchaseData, this.httpOptions);
   }
 
