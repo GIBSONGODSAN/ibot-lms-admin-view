@@ -1,0 +1,82 @@
+services:
+  django:
+    image: ibot_lms_image:latest
+    container_name: django-app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+      - redis
+    environment:
+      DB_NAME: ibotlms
+      DB_USER: postgres
+      DB_PASSWORD: root
+      DB_HOST: db
+      DB_PORT: 5432
+      EMAIL_HOST_PASSWORD: "uqqg nrzb ihuc oddl"
+      EMAIL_HOST_USER: "ibotventures123@gmail.com"
+      DJANGO_SECRET: "django-insecure-r+6bb*1tv(eikde^q9s@!98d+%6uuxy98fav_pt9k@cezls6j#"
+      CLOUDINARY_CLOUD_NAME: "don6cyygt"
+      CLOUDINARY_API_KEY: "749695133452677"
+      CLOUDINARY_API_SECRET: "ssMiDaZXHHQ6lYs1CAcWmD4aIF8"
+      REDIS_URL: "redis://redis:6379/"
+
+  angular-app:
+    image: angular-app:latest
+    container_name: angular-app
+    ports:
+      - "4200:4200"
+    depends_on:
+      - django
+
+  db:
+    image: postgres:13
+    container_name: postgres-db
+    environment:
+      POSTGRES_DB: ibotlms
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    ports:
+      - "8080:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "admin@admin.com"
+      PGADMIN_DEFAULT_PASSWORD: "admin"
+
+  redis:  
+    image: redis:alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+
+  celery: 
+    image: ibot_lms_image:latest
+    container_name: celery-worker
+    command: >
+      sh -c "cd ibot_lms/ && celery -A iBot_lms worker --loglevel=info -B"
+    depends_on:
+      - redis
+      - db
+    environment:
+      DB_NAME: ibotlms
+      DB_USER: postgres
+      DB_PASSWORD: root
+      DB_HOST: db
+      DB_PORT: 5432
+      REDIS_URL: "redis://redis:6379/"
+      EMAIL_HOST_PASSWORD: "uqqg nrzb ihuc oddl"
+      EMAIL_HOST_USER: "ibotventures123@gmail.com"
+      DJANGO_SECRET: "django-insecure-r+6bb*1tv(eikde^q9s@!98d+%6uuxy98fav_pt9k@cezls6j#"
+      CLOUDINARY_CLOUD_NAME: "don6cyygt"
+      CLOUDINARY_API_KEY: "749695133452677"
+      CLOUDINARY_API_SECRET: "ssMiDaZXHHQ6lYs1CAcWmD4aIF8"
+
+volumes:
+  postgres_data:

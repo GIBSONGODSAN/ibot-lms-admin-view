@@ -47,6 +47,11 @@
         <span class="product-price">Rs . {{ product.price }}</span>
         <span class="product-make">Made in {{ product.make }}</span>
       </div>
+      <div class="edit-icon">
+        <i class="fas fa-edit" (click)="editProduct(product)"></i>
+      </div>
+      <div class="delete-icon">
+        <i class="fas fa-trash" (click)="deleteProduct(product)"></i>
     </div>
   </div>
 </div>

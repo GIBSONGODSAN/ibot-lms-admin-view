@@ -17,7 +17,7 @@ export class CourseListComponent implements OnInit, AfterViewInit {
 
   constructor(private courseService: CoursesService, private dialog: MatDialog, private router: Router) { }
 
-  displayedColumns: string[] = ['select', 'courseName', 'category', 'lessons', 'enrollment', 'status', 'price', 'actions', 'toggleStatus'];
+  displayedColumns: string[] = ['select', 'courseName', 'category', 'lessons', 'enrollment', 'status',  'actions', 'toggleStatus'];
 
   courses = new MatTableDataSource<any>([]);  // Initialize as an empty array
   selection = new SelectionModel<any>(true, []); // Multi-select

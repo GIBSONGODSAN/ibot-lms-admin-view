@@ -79,4 +79,10 @@ export class ProductsComponent implements OnInit {
       }
     });
   }
+
+  editProduct(product: any) {
+  }
+
+  deleteProduct(product: any) {
+  }
 }
